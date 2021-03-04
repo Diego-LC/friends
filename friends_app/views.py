@@ -35,8 +35,9 @@ def remove_friend(request, num):
     if u and f:
         friend = f[0]
         user = u[0]
-        fr=Friends.objects.get(friend_id=friend)
-        fr2=Friends.objects.get(friend_id=user)
+        fr=Friends.objects.filter(u_id=user, friend_id=friend)
+        fr2=Friends.objects.filter(u_id=friend, friend_id=user)
+        print('fr: ', fr, '\nfr2: ', fr2)
         fr.delete()
         fr2.delete()
     return redirect('/friends')
