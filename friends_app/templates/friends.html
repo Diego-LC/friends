@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>ingresar</title>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        </li>
+                    </ul>
+                    <form action="/main/logout/">
+                        {% csrf_token %}
+                        <input type="hidden" name="confirm" value="true">
+                        <input type="submit" class="btn btn-secondary" value="Cerrar sesión">
+                    </form>
+                </div>
+            </div>
+        </nav>
+        <hr>
+
+        <div class="row my-4 d-flex justify-content-between mt-5">
+            <h1>Hola {{user.fname}}</h1>
+            <h3 class="col">Aqui la lista de todos tus amigos</h3>
+        </div>
+
+        <div class="col-6 my-3 p-3">
+        {% if amigos %}
+            <table class="table table-dark table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Alias</th>
+                        <th scope="col">actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for u in amigos%}
+                    <tr>
+                        <td><p>{{u.friend_id.lname}}</p></td>
+                        <td>
+                            <a href="/user/{{u.friend_id.id}}" rel="noopener noreferrer">Ver perfil</a> | 
+                            <a class="borrar" href="del_friend/{{u.friend_id.id}}" role="button">Borrar de amigos</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <h2><i>Tu lista de amigos está vacía</i></h2>
+        {% endif %}
+        </div>
+
+        <div class="m-5">
+            <h3>Otro usuarios que no están en tu lista de amigos</h3>
+        </div>
+        <div class="col-6 my-3 p-3">
+            <table class="table table-dark table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Alias</th>
+                        <th scope="col">actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for u in no_amigos %}
+                    {% if u.id != user.id %}
+                    <tr>
+                        <td><a class="name" href="/user/{{u.id}}">{{u.lname}}</a></td>
+                        <td>
+                            <a class="btn btn-secondary" href="add/{{u.id}}" rel="noopener noreferrer">Añadir como amigo</a>
+                        </td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Create</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-7">
+            </div>
+            <div class="col-1">
+                <a href="/friends">Home</a> 
+            </div>
+            <div class="col-2">
+                <form action="/main/logout/">
+                    {% csrf_token %}
+                    <input type="hidden" name="confirm" value="true">
+                    <input type="submit" class="btn btn-secondary" value="Cerrar sesión">
+                </form>
+            </div>
+        </div>
+        
+        <div class="nav mt-3 mb-5">
+            <div class="col-10">
+                <h1>Perfil de {{ user.lname }}</h1>
+                
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-5">
+                <h3><b>Nombre: </b>{{user.fname}}</h3>
+                <h3><b>Email: </b>{{ user.email}}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
